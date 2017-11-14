@@ -1,0 +1,174 @@
+package de.tuberlin.dima.minidb.io.tables;
+
+import de.tuberlin.dima.minidb.catalogue.TableSchema;
+import de.tuberlin.dima.minidb.core.BigIntField;
+import de.tuberlin.dima.minidb.core.CharField;
+import de.tuberlin.dima.minidb.core.DataField;
+import de.tuberlin.dima.minidb.core.DataTuple;
+import de.tuberlin.dima.minidb.core.DataType;
+import de.tuberlin.dima.minidb.core.DoubleField;
+import de.tuberlin.dima.minidb.core.FloatField;
+import de.tuberlin.dima.minidb.core.IntField;
+import de.tuberlin.dima.minidb.core.SmallIntField;
+import de.tuberlin.dima.minidb.core.TimeField;
+import de.tuberlin.dima.minidb.core.TimestampField;
+import de.tuberlin.dima.minidb.core.VarcharField;
+import de.tuberlin.dima.minidb.io.cache.PageExpiredException;
+import de.tuberlin.dima.minidb.io.cache.PageFormatException;
+import de.tuberlin.dima.minidb.qexec.LowLevelPredicate;
+
+public class implementTablePage implements TablePage {
+	
+	int pageNumber;
+	byte[] binaryPage;
+	TableSchema schema;
+	int tupleCnt;
+	boolean isExpire = false;
+	boolean isModify = false;
+	 DataTuple tuples;
+
+	
+	public implementTablePage(int pageNumber,byte[] binaryPage,TableSchema schema) {
+		this.pageNumber = pageNumber;
+		this.binaryPage = binaryPage;
+		this.schema = schema;
+		tuples = new DataTuple(Integer.MAX_VALUE);
+		isModify= true;
+	}
+	
+	public implementTablePage(byte[] binaryPage,TableSchema schema) {
+		this.binaryPage = binaryPage;
+		isModify = true;
+		this.schema=schema;
+		
+	}
+
+	@Override
+	public boolean hasBeenModified() throws PageExpiredException {
+		return isModify;
+	}
+
+	@Override
+	public void markExpired() {
+		isExpire = true;
+		isModify = false;
+		
+	}
+
+	@Override
+	public boolean isExpired() {
+		return isExpire;
+	}
+
+	@Override
+	public byte[] getBuffer() {
+		return binaryPage;
+	}
+
+	@Override
+	public int getPageNumber() throws PageExpiredException {
+		return pageNumber;
+	}
+	
+
+
+	@Override
+	public int getNumRecordsOnPage() throws PageExpiredException {
+		return tupleCnt;
+	}
+
+	@Override
+	public boolean insertTuple(DataTuple tuple) throws PageFormatException, PageExpiredException {
+		int totalLenght = 0;
+		for(int i =0;i<tuple.getNumberOfFields();i++) {
+			int TLenght = tuple.getField(i).getNumberOfBytes();
+			totalLenght = totalLenght + TLenght;
+			}
+		if()
+		if(tupleCnt<tuples.getNumberOfFields()) {
+			
+		tuples.assign(tuple); 
+		tupleCnt++;
+		return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void deleteTuple(int position) throws PageTupleAccessException, PageExpiredException {
+		tuples.assignDataField(null, position);
+		
+	}
+
+	@Override
+	public DataTuple getDataTuple(int position, long columnBitmap, int numCols)
+			throws PageTupleAccessException, PageExpiredException {
+		  if ((columnBitmap & 0x1) == 1) {
+			  
+		   }
+		return null;
+	}
+
+	@Override
+	public DataTuple getDataTuple(LowLevelPredicate[] preds, int position, long columnBitmap, int numCols)
+			throws PageTupleAccessException, PageExpiredException {
+		
+		DataTuple temp = new DataTuple(schema.getNumberOfColumns());
+		for(int k = 0; k<schema.getNumberOfColumns();k++) {
+			DataType tempDT = schema.getColumn(k).getDataType();
+		for (int j = 0; j < numCols & columnBitmap != 0; columnBitmap >>>= 1) {  
+		for (int i =0;i<preds.length;i++) {
+			if (!preds[i].evaluateWithNull(tuples.getField(position)))
+			{
+				return null;
+			}else {
+				  if ((columnBitmap & 0x1) == 1) {
+					   //Varchar 
+					  	if(!tempDT.isFixLength()) {
+					  		
+					  	}else {
+					  		
+					  	}
+					   }
+			}
+		}
+		}
+		}
+		return null;
+	}
+
+	@Override
+	public TupleIterator getIterator(int numCols, long columnBitmap)
+			throws PageTupleAccessException, PageExpiredException {
+		 
+		 for(int i =0;i<numCols;i++) {
+		   if ((columnBitmap & 0x1) == 1) {
+			   implementTupleIterator pageIte = new implementTupleIterator();
+				pageIte.assignTuple(tuple);
+		   }}
+		  
+	
+		return null;
+	}
+
+	@Override
+	public TupleIterator getIterator(LowLevelPredicate[] preds, int numCols, long columnBitmap)
+			throws PageTupleAccessException, PageExpiredException {
+		
+		return null;
+	}
+
+	@Override
+	public TupleRIDIterator getIteratorWithRID() throws PageTupleAccessException, PageExpiredException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public void writeToBinary() {
+		
+	}
+	public int sizeBinary(int position,int Type) {
+		return
+	}
+
+}
