@@ -1,0 +1,17 @@
+what is resourceId
+
+pin page structure see structure by analyst unpin
+
+one resourceId have many pageNum
+
+use 2 list and fix range t b more than t is b ZONE
+
+use 4 list
+
+
+ini size Lr is c-p BUTTTTTTTTTTTTTTTTTTTTTTTTTT ini size of Tr and Br??????????
+
+
+When cache going to Br
+
+How to set evitedPage 
