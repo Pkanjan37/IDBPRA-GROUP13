@@ -15,3 +15,5 @@ ini size Lr is c-p BUTTTTTTTTTTTTTTTTTTTTTTTTTT ini size of Tr and Br??????????
 When cache going to Br
 
 How to set evitedPage 
+
+git push https://Pkanjan37:72uktn2E@myrepository.biz/file.git --all
